@@ -1,0 +1,578 @@
+package com.merribiAdil.ArrayList;
+
+public class MyArrayList implements SimpleArrayList {
+	
+	private Object[] array;
+	private int size;
+	private static final int MAX_VALUE = 10;
+	
+	/**
+    *
+    * constructor of MyArray class
+    */
+	public MyArrayList() {
+		array = new Object[MAX_VALUE];
+		size = 0;
+	}
+	
+	/**
+	 * Returns the number of elements in this list. If this list contains more
+	 * than <tt>Integer.MAX_VALUE</tt> elements, returns
+	 * <tt>Integer.MAX_VALUE</tt>.
+	 *
+	 * @return the number of elements in this list
+	 */
+	 	
+	 	
+	public int size() {
+		return size;	
+	}
+
+	/**
+	 * Returns <tt>true</tt> if this list contains no elements.
+	 *
+	 * @return <tt>true</tt> if this list contains no elements
+	 */
+	public boolean isEmpty() {
+		if (size == 0)
+			return true;
+		else 
+			return false;
+	}
+
+
+	/**
+	 * Returns <tt>true</tt> if this list contains the specified element. More
+	 * formally, returns <tt>true</tt> if and only if this list contains at
+	 * least one element <tt>e</tt>
+	 *
+	 * @param o
+	 *            element whose presence in this list is to be tested
+	 * @return <tt>true</tt> if this list contains the specified element
+	 */
+	 
+	public boolean contains(Object o) {
+		 
+		return indexOf(o) != -1;
+		 
+	}
+
+	/**
+	 * Returns an array containing all of the elements in this list in proper
+	 * sequence (from first to last element).
+	 *
+	 * <p>
+	 * The returned array will be "safe" in that no references to it are
+	 * maintained by this list. (In other words, this method must allocate a new
+	 * array even if this list is backed by an array). The caller is thus free
+	 * to modify the returned array.
+	 *
+	 * <p>
+	 * This method acts as bridge between array-based and SimpleArrayList-based
+	 * APIs.
+	 *
+	 * @return an array containing all of the elements in this list in proper
+	 *         sequence
+	 * @see Arrays#asList(Object[])
+	 */
+	
+	public Object[] toArray() {
+	 
+	//	return (Object[]) array.clone();
+		Object [] copyArray= new Object[this.size];
+	 
+            for (int i=0; i< size; i++)
+            {
+            	copyArray[i]=this.array[i];
+            	
+            }
+		return 	copyArray;
+            
+	}
+
+	/**
+	 * Appends the specified element to the end of this list
+	 *
+	 * @param e
+	 *            element to be appended to this list
+	 * @return <tt>true</tt> (as specified by {@link SimpleArrayList#add})
+	 */
+
+	public boolean add(Object e) {
+	   int currentSize = size;
+		
+		if (size < array.length) {
+			array[size] = e;
+			size += 1;
+		} else {
+			augmentArraySize();
+			add(e);
+		}
+		
+		return currentSize != size;
+	}
+	
+	
+	
+	/**
+	 * Inserts the specified element at the specified position in this list
+	 * (optional operation). Shifts the element currently at that position (if
+	 * any) and any subsequent elements to the right (adds one to their
+	 * indices).
+	 *
+	 * @param index
+	 *            index at which the specified element is to be inserted
+	 * @param element
+	 *            element to be inserted
+	 */
+	
+public void add(int index, Object element) {
+	
+		
+	if (size < array.length) {
+		
+		for (int i = size - 1; i >= index; i --) {     
+			array[i+1] = array[i]; 
+		}
+		 
+		array[index] = element;
+		size += 1;
+	} else {
+		augmentArraySize();
+		add(index, element);
+	}
+
+		
+}
+
+
+
+  public void augmentArraySize() {
+		Object[] largerArray = new Object[MAX_VALUE * 2];
+
+		for (int i = 0; i < array.length; ++i) {
+			largerArray[i] = array[i];
+		}
+		array = largerArray;
+	}
+		
+	/**
+	 * Removes the first occurrence of the specified element from this list, if
+	 * it is present (optional operation). If this list does not contain the
+	 * element, it is unchanged.
+	 *
+	 * @param o
+	 *            element to be removed from this list, if present
+	 * @return <tt>true</tt> if this list contained the specified element
+	 */
+	/*public boolean remove(Object o) {
+		
+		int index = 0;	
+			 
+		index = indexOf(o);
+		
+		if (index != -1) {
+			remove(index);
+			return true;
+		}
+		else
+		  return false;
+	}*/
+
+	public boolean remove(Object o) {
+	
+	int index = 0;
+	boolean isRemoved = false;
+	  
+	   
+	   while (this.contains (o))
+	   {
+		   index = indexOf(o);
+		   remove(index);
+		   isRemoved = true;
+	   }
+	 
+	   return isRemoved;
+}
+
+	
+	/**
+	 * Removes the element at the specified position in this list (optional
+	 * operation). Shifts any subsequent elements to the left (subtracts one
+	 * from their indices). Returns the element that was removed from the list.
+	 *
+	 * @param index
+	 *            the index of the element to be removed
+	 * @return the element previously at the specified position
+	 */
+	public Object remove(int index) {
+	 
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException( );
+		}
+		
+		Object removedElem = array[index];
+		
+		for (int i = index+1; i < size; i++) {
+			array[i-1] = array[i];
+			 
+			}
+		
+		array[size-1] = null;
+		size -=1; 
+		return removedElem;
+	}
+
+	
+	 
+	
+
+	
+	
+	/**
+	 * Returns <tt>true</tt> if this list contains all of the elements of the
+	 * specified SimpleArrayList.
+	 *
+	 * @param c
+	 *            SimpleArrayList to be checked for containment in this list
+	 * @return <tt>true</tt> if this list contains all of the elements of the
+	 *         specified SimpleArrayList
+	 */
+	public boolean containsAll(SimpleArrayList c) {
+		int count=0;
+		for (int i=0; i < c.size(); i++)
+		  {
+		     Object item = c.get(i);
+		      if (this.contains(item)){
+		         count +=1;
+		      }
+     	  }
+	   return c.size()==count;
+	}
+	
+	/**
+	 * Appends all of the elements in the specified SimpleArrayList to the end
+	 * of this list, in the order that they are returned by the specified
+	 * SimpleArrayList.
+	 *
+	 * @param c
+	 *            SimpleArrayList containing elements to be added to this list
+	 * @return <tt>true</tt> if this list changed as a result of the call
+	 */
+	public boolean addAll(SimpleArrayList c) {
+		int currentSize = size;
+		for (int i=0; i < c.size(); i++)
+	    {
+	      Object item = c.get(i);
+	      this.add(item);
+	    }
+		 
+		return currentSize != size;
+	}
+	
+	
+	/**
+	 * Inserts all of the elements in the specified SimpleArrayList into this
+	 * list at the specified position. Shifts the element currently at that
+	 * position (if any) and any subsequent elements to the right (increases
+	 * their indices). The new elements will appear in this list in the order
+	 * that they are returned by the specified SimpleArrayList's iterator. The
+	 * behavior of this operation is undefined if the specified SimpleArrayList
+	 * is modified while the operation is in progress.
+	 *
+	 * @param index
+	 *            index at which to insert the first element from the specified
+	 *            SimpleArrayList
+	 * @param c
+	 *            SimpleArrayList containing elements to be added to this list
+	 * @return <tt>true</tt> if this list changed as a result of the call
+	 */
+	public boolean addAll(int index, SimpleArrayList c) {
+		int currentSize = size;
+		int pos = 0;
+		for (int i=0; i < c.size(); i++)
+	    {
+	      Object item = c.get(i);
+	      pos = i + index;
+	      this.add(pos, item);
+	    }
+		 
+		return currentSize != size;
+	}
+
+
+	
+	
+	
+	/**
+	 * Removes from this list all of its elements that are contained in the
+	 * specified SimpleArrayList.
+	 *
+	 * @param c
+	 *            SimpleArrayList containing elements to be removed from this
+	 *            list
+	 * @return <tt>true</tt> if this list changed as a result of the call
+	 */
+	public boolean removeAll(SimpleArrayList c) {
+		int currentSize = size;
+		for (int i=0; i < c.size(); i++)
+	    {
+	      Object item = c.get(i);
+	      this.remove(item);
+	    }
+	return currentSize != size;
+	}
+	
+
+	/**
+	 * Retains only the elements in this list that are contained in the
+	 * specified SimpleArrayList. In other words, removes from this list all of
+	 * its elements that are not contained in the specified SimpleArrayList.
+	 *
+	 * @param c
+	 *            SimpleArrayList containing elements to be retained in this
+	 *            list
+	 * @return <tt>true</tt> if this list changed as a result of the call
+	 */
+	public boolean retainAll(SimpleArrayList c) {
+		int currentsize = this.size();
+		MyArrayList itemsToDelete = new MyArrayList();
+		boolean ifDeleted = false;
+	 
+    	for (int i=0; i < this.size(); i++)
+		  {
+		   Object item = this.get(i);
+		  
+		   if (!c.contains (item)) {
+			   itemsToDelete.add(item);
+			   ifDeleted = true;
+		   }
+ 	      }
+    	if (ifDeleted == true)
+	       this.removeAll(itemsToDelete);
+	  
+		 return  size != currentsize;
+		
+	  }
+	
+	/**
+	 * Removes all of the elements from this list (optional operation). The list
+	 * will be empty after this call returns.
+	 *
+	 */
+	public void clear() {
+	  for (int i = 0; i < size; i++) {  
+			 array[i] = null;
+		}
+		size = 0;
+	}
+	
+	
+	
+	
+	/**
+	 * Compares the specified object with this list for equality. Returns
+	 * <tt>true</tt> if and only if the specified object is also a list, both
+	 * lists have the same size, and all corresponding pairs of elements in the
+	 * two lists are <i>equal</i>. In other words, two lists are defined to be
+	 * equal if they contain the same elements in the same order. This
+	 * definition ensures that the equals method works properly across different
+	 * implementations of the <tt>SimpleArrayList</tt> interface.
+	 *
+	 * @param o
+	 *            the object to be compared for equality with this list
+	 * @return <tt>true</tt> if the specified object is equal to this list
+	 */
+ /*	@Override
+ 	public boolean equals(Object o) {
+ 		
+		if (o==null && this.size == 0) 
+			return true;
+		if (o==null)
+			return false;
+		 
+ 		MyArray arraytoCompare= (MyArray) o;	
+ 		 
+ 		if (this.size() != arraytoCompare.size())
+ 			return false;
+ 		 
+ 	for (int i=0; i < this.size(); i++)	{
+ 			Object element = arraytoCompare.get(i);
+ 			if (array[i] != element )
+ 		        return false;
+ 	}
+		
+ 	return true;
+		
+		
+	}	*/
+	
+	@Override
+ 	public boolean equals(Object o) {
+ 		
+		if (o==null && this.size == 0) 
+			return true;
+		if (o==null)
+			return false;
+		 
+ 		MyArrayList arraytoCompare= (MyArrayList) o;	
+ 		 
+ 		if (this.size() != arraytoCompare.size())
+ 			return false;
+ 		boolean answer = false;
+ 		answer  = this.containsAll(arraytoCompare);
+ 		 
+ 	/*for (int i=0; i < this.size(); i++)	{
+ 			Object element = arraytoCompare.get(i);
+ 			if (array[i] != element )
+ 		        return false;
+ 	}*/
+		
+ 	return answer;
+		
+		
+	}
+
+
+	/**
+	 * Returns the element at the specified position in this list.
+	 *
+	 * @param index
+	 *            index of the element to return
+	 * @return the element at the specified position in this list
+	 */
+	public Object get(int index) {
+		if(index < size) {
+			return array[index];
+		}	
+		else {
+			throw new ArrayIndexOutOfBoundsException();
+		}
+	}
+	
+	
+	/**
+	 * Replaces the element at the specified position in this list with the
+	 * specified element (optional operation).
+	 *
+	 * @param index
+	 *            index of the element to replace
+	 * @param element
+	 *            element to be stored at the specified position
+	 * @return the element previously at the specified position
+	 */
+	public void set(int index, Object element) {
+		
+	if (index < 0 || index >= size())
+		throw new ArrayIndexOutOfBoundsException();
+	
+      
+     array[index] = element;
+      
+		
+	}
+
+
+	/**
+	 * Returns the index of the first occurrence of the specified element in
+	 * this list, or -1 if this list does not contain the element.
+	 *
+	 * @param o
+	 *            element to search for
+	 * @return the index of the first occurrence of the specified element in
+	 *         this list, or -1 if this list does not contain the element
+	 */
+	public int indexOf(Object o) {
+		
+		for (int i = 0; i < size(); i++) {
+			if (array[i].equals(o)) 
+			  return i;
+		}
+			
+		return -1;
+	}
+
+	
+	/**
+	 * Returns the index of the last occurrence of the specified element in this
+	 * list, or -1 if this list does not contain the element.
+	 *
+	 * @param o
+	 *            element to search for
+	 * @return the index of the last occurrence of the specified element in this
+	 *         list, or -1 if this list does not contain the element
+	 */
+	public int lastIndexOf(Object o) {
+		
+		for (int i = size - 1; i >= 0; i--) {
+		 if (array[i].equals(o)) 
+			  return i;
+		 
+	 	}
+		 return -1;
+	
+	}
+
+	/**
+	 * Returns a SimpleArrayList of the portion of this list between the
+	 * specified <tt>fromIndex</tt>, inclusive, and <tt>toIndex</tt>, exclusive.
+	 * (If <tt>fromIndex</tt> and <tt>toIndex</tt> are equal, the returned list
+	 * is empty.)
+	 * 
+	 *
+	 * @param fromIndex
+	 *            low endpoint (inclusive) of the subList
+	 * @param toIndex
+	 *            high endpoint (exclusive) of the subList
+	 * @return a view of the specified range within this list
+	 */
+ 
+	
+	
+public	SimpleArrayList subList(int fromIndex, int toIndex)
+	{
+		
+		int newSize = toIndex - fromIndex + 1;
+		 
+		 
+		MyArrayList toRet = new MyArrayList();
+
+		for (int i = 0; i < newSize; ++i) {
+			Object object = this.array[i + fromIndex];
+			
+			toRet.add(object);
+			 
+		}
+	 
+		return toRet;
+	}
+	
+
+
+
+	/**
+	 * Returns a string of all the items within the list delineated with a
+	 * comma. So you can simply understand what is within this SimpleArrayList.
+	 * If nothing is in the list an empty string should be returned.
+	 * 
+	 * @return A string indicating the items within the list.
+	 */
+	@Override
+	public	String toString() {
+		
+		String toRet = "[";
+
+		for (int i = 0; i < size; ++i) {
+			toRet += array[i] + ((i < size - 1) ? ", " : "");
+		}
+
+		toRet += "]";
+
+		return toRet;
+		
+	}
+
+	 
+
+	
+}

@@ -1,0 +1,84 @@
+import java.io.FileNotFoundException;
+import java.util.Map;
+import edu.princeton.cs.algs4.*;
+
+public class ShortestWPath {
+	
+	
+	private DirectedEdge[] edgeTo;
+	private double[] distTo;
+	private IndexMinPQ<Double> pq;
+	
+	public ShortestWPath(EdgeWeightedDigraph G, int s)
+	{
+		edgeTo = new DirectedEdge[G.V()];
+		distTo = new double[G.V()];
+		pq = new IndexMinPQ<Double>(G.V());
+		for (int v = 0; v < G.V(); v++)
+			distTo[v] = Double.POSITIVE_INFINITY;
+		distTo[s] = 0.0;
+		pq.insert(s, 0.0);
+		while (!pq.isEmpty())
+			relax(G, pq.delMin());
+	}
+	private void relax(EdgeWeightedDigraph G, int v)
+	{
+		for(DirectedEdge e : G.adj(v))
+		{
+			int w = e.to();
+			if (distTo[w] > distTo[v] + e.weight())
+			{
+				distTo[w] = distTo[v] + e.weight();
+				edgeTo[w] = e;
+				if (pq.contains(w)) pq.change(w, distTo[w]);
+				else pq.insert(w, distTo[w]);
+			}
+		}
+	}
+	public double distTo(int v)
+	{ return distTo[v]; }
+	
+	public boolean hasPathTo(int v)
+	{ return distTo[v] < Double.POSITIVE_INFINITY; }
+	
+	public Iterable<DirectedEdge> pathTo(int v)
+	{
+		if (!hasPathTo(v)) return null;
+		Stack<DirectedEdge> path = new Stack<DirectedEdge>();
+		for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.from()])
+			path.push(e);
+		return path;
+	}
+	
+	public static void main(String[] args) {
+		MetroGraph2 mG = null;
+		try {
+			mG = new MetroGraph2(args[0]);
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found: " + args[0]);
+		}
+		EdgeWeightedDigraph G=mG.getEdgeWeightedDigraph();
+		Map<Integer,Platform> platformMap = mG.getPlatformData();
+		Platform p;
+		p = platformMap.get(14);
+		int src = p.getPlatformId();
+		ShortestWPath bfs = new ShortestWPath(G, src);
+		p = platformMap.get(1);
+		int dest = p.getPlatformId();
+            if (bfs.hasPathTo(dest)) {
+                for (DirectedEdge x : bfs.pathTo(dest)) {
+                	p = platformMap.get(x);
+                    if (dest == src) {
+                		System.out.printf(p.getStationName() + " (" + p.getTrainLine() + ")");
+                    }
+                    else {
+                    	System.out.printf(" - " + p.getStationName() + " (" + p.getTrainLine() + ")");
+                    }
+                }
+                System.out.println();
+            }
+            else 
+            	System.out.printf("not connected\n");
+	}
+
+}

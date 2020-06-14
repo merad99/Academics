@@ -1,0 +1,24 @@
+1. Discuss your experiences in writing these programs.  
+What was the hardest part for you?  
+Do you think the book is useful on graphs?
+
+This was a fun experience exploring the metro system using the book's graph and digraph implementation, my familiarity on the Boston metro system helped a little bit.
+The hardest part is figuring out the steps used in the Dijkstra's algorithm to find the shortest path from a single source vertex to all other vertices in the given graph.
+Yes, the book is very useful on graphs and the use of their Queue and Stack, the S&W approach is better, lighter-weight/modern.
+
+2. Discuss the shortcoming of the shortest path solution of step 3 here.
+
+looking for the fewest number of stations between source and destination doesn't provide the best solution to get from Harvard station to point Oak Grove”. While it takes, roughly a minute to go from one station to another, it typically takes say 7 minutes to transfer from one line to another. That is why need to put costs on edges 1 for most edges, but 7 for going from one platform to another in a station to transfer lines. And then ask for the least-cost route using the weighted edges.
+
+
+3. Using our graph, find the cost of going from NorthQuincy to SavinHill, i.e. going in and out on different extensions of a split. Is this a proper cost based on what happens in real life? Discuss. Can you think of a way to set up the graph that would fix this modeling problem?
+
+120 to 100 (2.00): RedB:(NorthQuincy, JFK/UMass), Red:(JFK/UMass, SavinHill)
+This is not a proper cost based on what happens in real life because of the change of trains from RedB to RedA in the split it should take at least 7 minute for a cost of 9.
+We can add modify the cost of switching trains in our example RedB to RedA without missing with the route that runs over a split where it doesn't have a transfer.
+
+
+4. Explain why the code in MetroGraph fills in the neighbor vertex numbers in the Node array instead of simply adding edges to a growing graph. These neighbor vertex numbers in the Node array are never used once the Graph is created.
+
+Node array help us connect nodes together by inNodeIds and outNodeIds and also connect the nodes for one station all together with edges for transfers. While our graph has 2 vertices for a station on two train lines, Node array also help us with the case of multiple nodes for station and link them together.
+The Node array is a temporary crutch for reading the file and setting up the Graph but the clients are expected to call Platforms where we could go through the Platform map and find all the stations and make a map for them, or just a Set of station names

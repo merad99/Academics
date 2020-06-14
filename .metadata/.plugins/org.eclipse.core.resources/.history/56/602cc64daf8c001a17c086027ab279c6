@@ -1,0 +1,37 @@
+import java.io.FileNotFoundException;
+import java.util.Map;
+
+public class ShortestWPath {
+	
+	public static void main(String[] args) {
+		MetroGraph2 mG = null;
+		try {
+			mG = new MetroGraph2(args[0]);
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found: " + args[0]);
+		}
+		Graph G=mG.getDigraph();
+		Map<Integer,Platform> platformMap = mG.getPlatformData();
+		Platform p;
+		p = platformMap.get(14);
+		int src = p.getPlatformId();
+		MetroGraph2 bfs = new MetroGraph2(G, src);
+		p = platformMap.get(1);
+		int dest = p.getPlatformId();
+            if (bfs.hasPathTo(dest)) {
+                for (int x : bfs.pathTo(dest)) {
+                	p = platformMap.get(x);
+                    if (x == src) {
+                		System.out.printf(p.getStationName() + " (" + p.getTrainLine() + ")");
+                    }
+                    else {
+                    	System.out.printf(" - " + p.getStationName() + " (" + p.getTrainLine() + ")");
+                    }
+                }
+                System.out.println();
+            }
+            else 
+            	System.out.printf("not connected\n");
+	}
+
+}

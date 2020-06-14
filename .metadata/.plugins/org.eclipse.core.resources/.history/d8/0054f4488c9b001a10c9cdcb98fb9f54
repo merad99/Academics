@@ -1,0 +1,39 @@
+import java.io.FileNotFoundException;
+import java.util.Map;
+import edu.princeton.cs.algs4.*;
+
+public class ShortestWPath {
+
+	public static void main(String[] args) {
+		MetroGraph2 mG = null;
+		try {
+			mG = new MetroGraph2("/Users/adilmerribi/eclipse-workspace/CS310_pa4/bostonmetro.csv");
+		} catch (FileNotFoundException e) {
+
+			System.out.println("File not found: " + args[0]);
+		}
+		EdgeWeightedDigraph G=mG.getEdgeWeightedDigraph();
+		Map<Integer,Platform> platformMap = mG.getPlatformData();
+		Platform p;
+		Platform r;
+		p = platformMap.get(14);
+		int src = p.getPlatformId();
+		DijkstraSP sp = new DijkstraSP(G, src);
+		p = platformMap.get(20);
+		int dest = p.getPlatformId();
+		if (sp.hasPathTo(dest)) {
+			System.out.printf("%d to %d with a cost of (%.2f):\t", src, dest, sp.distTo(dest));
+			for (DirectedEdge x : sp.pathTo(dest)) {
+				p = platformMap.get(x.from());
+				r = platformMap.get(x.to());
+
+				System.out.printf(p.getTrainLine() + ":(" + p.getStationName() + ", " + r.getStationName() + "), ");
+
+			}
+			System.out.println("\n");
+		}
+		else 
+			System.out.printf("not connected\n");
+	}
+
+}

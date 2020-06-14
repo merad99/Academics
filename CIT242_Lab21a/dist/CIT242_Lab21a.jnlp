@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="CIT242_Lab21a.jnlp">
+  <information>
+    <title>CIT242_Lab21a</title>
+    <vendor>adilmerribi</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="CIT242_Lab21a.jar" size="1795" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="CIT242_Lab21a" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="cit242_lab21a.CIT242_Lab21a"  name="CIT242_Lab21a" />
+  <update check="always"/>
+</jnlp>

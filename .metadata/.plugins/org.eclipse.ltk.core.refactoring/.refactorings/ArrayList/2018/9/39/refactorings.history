@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;ArrayList/script&apos; to &apos;script.txt&apos;" description="Rename resource &apos;script&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="script" name="script.txt" stamp="1538011681199" updateReferences="true"/>
+</session>

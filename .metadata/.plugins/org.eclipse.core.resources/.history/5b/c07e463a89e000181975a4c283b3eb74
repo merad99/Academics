@@ -1,0 +1,268 @@
+package com.merribiAdil.ArrayList;
+
+public class MyArrayList implements SimpleArrayList{
+	
+	
+	private Object[] c;
+	
+	private int size;
+
+	public MyArrayList() {
+		c = new Object[100];
+		size = 0;
+	}
+	
+	public int size() {
+		if(c.length > Integer.MAX_VALUE) {
+			return c.length;
+		}
+		else {
+			return Integer.MAX_VALUE;
+		}
+	}
+
+	public boolean isEmpty() {
+		int currentSize = size;
+		
+		if(c.length == 0) {
+			size = 0;
+			
+		}
+		
+		return currentSize == size;
+	}
+
+	public boolean contains(Object o) {
+		int count;
+		
+		for (int i = 0; i < c.length; ++i) {
+			if(c[i] == o) {
+				count =+ 1;
+			}
+		}
+		return true;
+	}
+
+	public Object[] toArray() {
+		Object [] copyc= new Object[this.size];
+		 
+        for (int i=0; i< size; i++)
+        {
+        	copyc[i]=this.c[i];
+        	
+        }
+	return 	copyc;
+	}
+
+	public boolean add(Object e) {
+        int currentSize = size;
+		
+		if (size < c.length) {
+			c[size] = e;
+			size++;
+		} else {
+			augmentArraySize();
+
+			add(e);
+		}
+		
+		return currentSize != size;
+		
+	}
+	
+	public void augmentArraySize() {
+		Object[] largerArray = new Object[c.length * 2];
+
+		for (int i = 0; i < c.length; ++i) {
+			largerArray[i] = c[i];
+		}
+
+		c = largerArray;
+	}
+
+	public boolean remove(Object o) {
+		
+		int index = 0;	
+		 
+		index = indexOf(o);
+		
+		if (index != -1) {
+			remove(index);
+			return true;
+		}
+		else
+		  return false;
+	}
+
+	
+	public boolean containsAll(SimpleArrayList c) {
+		int count=0;
+		for (int i=0; i < c.size(); i++)
+		  {
+		     Object item = c.get(i);
+		      if (this.contains(item)){
+		         count +=1;
+		      }
+     	  }
+	   return c.size()==count;
+	}
+
+	public boolean addAll(SimpleArrayList c) {
+		int currentSize = size;
+		for (int i=0; i < c.size(); i++)
+	    {
+	      Object item = c.get(i);
+	      this.add(item);
+	    }
+		 
+		return currentSize != size;
+	}
+
+	public boolean addAll(int index, SimpleArrayList c) {
+		int currentSize = size;
+		int pos = 0;
+		for (int i=0; i < c.size(); i++)
+	    {
+	      Object item = c.get(i);
+	      pos = i + index;
+	      this.add(pos, item);
+	    }
+		 
+		return currentSize != size;
+	}
+
+	@Override
+	public boolean removeAll(SimpleArrayList c) {
+		int currentSize = size;
+		for (int i=0; i < c.size(); i++)
+	    {
+	      Object item = c.get(i);
+	      this.remove(item);
+	    }
+	return currentSize != size;
+	}
+
+	@Override
+	public boolean retainAll(SimpleArrayList c) {
+		int currentsize = this.size();
+    	for (int i=0; i < this.size(); i++)
+		  {
+		   Object item = get(i);
+		   
+		   if (!c.contains (item)) 
+		      this.remove(item);
+ 	      }
+	 
+		 return  size() != currentsize;
+	}
+
+	@Override
+	public void clear() {
+		  for (int i = 0; i < size; i++) {  
+				 c[i] = null;
+			}
+			size = 0;
+	}
+
+	@Override
+	public Object get(int index) {
+
+		if(index < size) {
+			return c[index];
+		}	
+		else {
+			throw new ArrayIndexOutOfBoundsException();
+		}
+	}
+
+	public void set(int index, Object e) {
+		if (index < 0 || index >= size())
+			throw new ArrayIndexOutOfBoundsException();
+		
+	      
+	     c[index] = e;
+	}
+
+	@Override
+	public void add(int index, Object element) {
+		
+	 if (index < 0 || index >= size())
+		throw new ArrayIndexOutOfBoundsException();
+      
+     c[index] = element;
+		
+	}
+
+	public Object remove(int index) {
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException( );
+		}
+		
+		Object removedElement = c[index];
+		
+		for (int i = index+1; i < size; i++) {
+			c[i-1] = c[i];
+			 
+			}
+		
+		c[size-1] = null;
+		size -=1; 
+		return removedElement;
+		
+	}
+
+	public int indexOf(Object o) {
+		for (int i = 0; i < size(); i++) {
+			if (c[i].equals(o)) 
+			  return i;
+		}
+			
+		return -1;
+	}
+
+	public int lastIndexOf(Object o) {
+		
+		for (int i = size - 1; i >= 0; i--) {
+		 if (c[i].equals(o)) 
+			  return i;
+		 
+	 	}
+		 return -1;
+	}
+
+	public SimpleArrayList subList(int fromIndex, int toIndex) {
+		int newSize = toIndex - fromIndex + 1;
+		 
+		 
+		MyArrayList toRet = new MyArrayList();
+
+		for (int i = 0; i < newSize; ++i) {
+			Object object = this.c[i + fromIndex];
+			
+			toRet.add(object);
+			 
+		}
+	 
+		return toRet;
+	}
+	
+	public void removeLast() {
+		size -= 1;
+	}
+	
+	public String toString() {
+		String toRet = "[";
+
+		for (int i = 0; i < size; ++i) {
+			toRet += c[i] + ((i < size - 1) ? ", " : "");
+		}
+
+		toRet += "]";
+
+		return toRet;
+	}
+
+	
+
+
+}

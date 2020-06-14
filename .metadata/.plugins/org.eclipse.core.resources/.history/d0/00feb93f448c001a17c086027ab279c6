@@ -1,0 +1,44 @@
+
+
+import java.io.FileNotFoundException;
+import java.util.Map;
+
+import edu.princeton.cs.algs4.*;
+
+public class ShortestPath {
+	
+	
+	public static void main(String[] args) {
+		MetroGraph2 mG = null;
+		try {
+			mG = new MetroGraph2(args[0]);
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found: " + args[0]);
+		}
+		Graph G=mG.getGraph();
+		Map<Integer,Platform> platformMap = mG.getPlatformData();
+		int s = Integer.parseInt(args[1]);
+		MetroGraph2 bfs = new MetroGraph2(G, s);
+		
+            if (bfs.hasPathTo(1)) {
+                for (int x : bfs.pathTo(1)) {
+                	Platform p = platformMap.get(x);
+                    if (x == s) {
+                		System.out.println(p.getStationName() + " (" + p.getTrainLine() + ")");
+                    	//System.out.println(x);
+                    }
+                    else {
+                    	System.out.printf("-" + p.getStationName() + " (" + p.getTrainLine() + ")");
+                    }
+                }
+                System.out.println();
+            }
+
+            else 
+            	System.out.printf("%d to %d (-):  not connected\n", s, 1);
+
+		
+	}
+	
+
+}

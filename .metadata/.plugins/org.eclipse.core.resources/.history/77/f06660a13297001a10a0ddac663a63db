@@ -1,0 +1,8 @@
+
+public interface GraphIF {
+	
+	int V();
+	int E();
+	void validateVertex(int v);
+
+}

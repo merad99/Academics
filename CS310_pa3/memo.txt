@@ -1,0 +1,20 @@
+Adil Merribi
+
+** I am using 1 late days **
+
+1. Discuss your experiences in writing these programs.  What was the hardest part for you?  Are you now a recursion expert?
+
+I've already worked on TicTacToe before in a recent class so the concept was pretty familiar in terms of printing the board, and then asking for input from players. I found hard time debugging the provided Nim tree where I didn't found trouble in SZ_ROW0 = 0 but when I go back to SZ_ROW0 = 5 the computer get defeated easily. I think I might need a couple recursion exercises before I call myself an expert. 
+
+2. How many game states are there in Nim (upper bound, like 3^9 for tic tac toe)? Don't forget that the full game state includes whose turn it is. What is the height of the full game tree? (Don't try to draw the whole tree! Just think about the longest possible game.)
+
+For one-row Nim, it would be just the max number of stars, since a row could have 0 stars, 1 star, 2 stars, ..., max stars, and doubling the amount if we include the turns of the players since each #stars could be help by either player. So there is 13 game states. And the height of the full game tree is 8 
+
+3. It is well known that the first player in Nim has a winning strategy by picking A3, i.e. from row 1, take 3 stars. What does this 
+mean for the value of the initial position in Nim?  What is the initial position value for TicTacToe? What does that mean?
+
+When the first player takes 3 stars from row 1, no matter how the second player moves, the first always win. The initial position value in TicTacToe is row 0 col 0, it means putting the first "O" in a corner when playing first gives the opponent the most opportunities to make a mistake. If the human responds by putting an X anywhere besides the center, the computer can guarantee a win.
+
+4. We could use dynamic programming for Nim. What should the Position class contain in that case?
+
+Hashcode method, equals method, compareTo and toString method.

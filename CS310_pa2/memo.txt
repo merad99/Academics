@@ -1,0 +1,15 @@
+1. Discuss your experiences in writing these programs.  
+What was the hardest part for you?  
+Are you now a hashing expert?  
+Have you thought of any applications of hashing in problems you have seen outside this class?
+
+2. Explain how JDK documentation for Map (or what else) guided you to decide which methods 
+you needed to make private.
+
+3. Explain in your own words what it means that the keySet is a view on the JDK HashSet.
+
+4. Report on experiments with TestMapPerf, showing one final run’s output.  
+Does your data agree with the O(1) claim of hashing?  
+How do your HashMap2 compare to JDK’s? 
+Did switching to SequentialSearchST hurt performance? 
+How does JDK HashMap compare to JDK TreeMap?
